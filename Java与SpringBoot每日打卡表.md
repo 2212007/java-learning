@@ -16,7 +16,7 @@
 | 天 | 主线（1.5h） | 算法（1h） | 产出验收 | ✓ |
 |---|---|---|---|---|
 | D1 周一 | 环境搭建：JDK17 + IDEA + 第一个程序；数据类型、变量、运算符；**并行：Git 教程 30min（廖雪峰，init/commit/push）** | 数组·704 二分查找 | Hello World 仓库建好 | ☐ |
-| D2 周二 | 流程控制（if/switch/for/while）+ 数组；**并行：Git 教程 30min（branch/merge）** | 数组·27 移除元素 | 5 个流程控制 demo commit | ☐ |
+| D2 周二 | 流程控制（if/switch/for/while）+ 数组；**并行：Git 教程 30min（branch/merge）** | 数组·27 移除元素 | 5 个流程控制 demo commit | ✓ |
 | D3 周三 | 方法定义/重载 + String 与 StringBuilder | 数组·977 有序数组的平方 | String 练习 demo | ☐ |
 | D4 周四 | OOP 上：类、构造器、封装、this、static | 链表·203 移除链表元素 | 单个业务类设计 demo | ☐ |
 | D5 周五 | OOP 下：继承、super、方法重写、多态 | 链表·206 反转链表 + 19 删除倒数第N个 | 继承体系 demo（如动物/图形） | ☐ |
@@ -150,7 +150,10 @@
 
 - [ ] **D1-①** JVM 与 .class 的关系：字节码是平台无关的中间码，由 JVM（软件虚拟机）执行，实现"一次编写到处运行"；区别于 C++ 直接编译机器码
 - [ ] **D1-②** 浮点数 MIN_VALUE 陷阱：Double.MIN_VALUE 是最小**正**数（4.9E-324）；最负值是 -Double.MAX_VALUE，不是 -Double.MIN_VALUE
-- [ ] **D2-①** 双指针边界：i++ 只能在确认该位置元素安全后发生；窗口全为 val 时不得推进 i。调试法：拿失败用例在纸上手动模拟。D3 开工前白纸重写 if/else 版 removeElement
+- [ ] **D2-①** 双指针边界：i++ 只能在确认该位置元素安全后发生；窗口全为 val 时不得推进 i。调试法：拿失败用例在纸上手动模拟。~~D3 开工前白纸重写 if/else 版 removeElement~~（D3 已白纸重写：i<=j 骨架一次成型，j=length-1 与 i<=j 两处边界错复发，经"无匹配/单元素"用例手动模拟自纠通过——边界病还需一次全对复写才能销账）
 - [ ] **D2-②** 后置自增陷阱：`return j++` 返回旧值 j 而非 j+1（与 C++ 同语义）；要返回 j+1 就明写 `return j+1`，别在 return 里玩自增
 - [ ] **D2-③** 内层循环双退出原因：跳右边 val 的 while 有两种退出（找到安全元素 / j==i 窗口耗尽且 nums[j] 仍是 val），未区分导致全 val 窗口下 val 换 val 后 i++ 照样推进——D2-① 病根换皮复发。教训：外层能自愈的检查，不要在内层预做
 - [ ] **D2-④** 类名撞 API + main 签名：自己的类不能叫 Scanner（与 import 的 java.util.Scanner 同文件撞名，报"已在该编译单元中定义"）；入口固定为 `public static void main(String[] args)`。IDEA 三招：Shift+F6 重命名、Ctrl+Alt+O 清无用 import、补全弹窗看清再 Tab
+- [ ] **D2-⑤** 单引号参与加法变数值：`i + '*' + j` 中 char 提升为 int 做算术（'*'=42, '='=61），print 出来是整数（如 1+'*'+2=45）。拼接必须用双引号 `"*"`。单引号本身没毒（println('A') 正常），参加 `+` 才有毒
+- [ ] **D2-⑥** 长度三兄弟不统一：数组 `arr.length`（**属性，无括号**）、字符串 `str.length()`（方法）、集合 `list.size()`（方法）。C++ 的 size() 肌肉记忆会全带上括号，数组带括号直接编译错误
+- [ ] **D2-⑦** WA ≠ 崩溃，应对手段不同：**WA（答案错）→ 看失败用例 + 纸上手动模拟**找分歧；**RE/本地崩溃 → 读 stack trace**（第一行异常类型，第一个 at 是出错行）。数组下标非法叫**越界**不叫溢出，异常名 ArrayIndexOutOfBoundsException（AIOOBE），越界是"下标出范围"，溢出是"数值超范围"（如 int 溢出），两个词别混
