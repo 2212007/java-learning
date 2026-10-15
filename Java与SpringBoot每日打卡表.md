@@ -16,10 +16,10 @@
 | 天 | 主线（1.5h） | 算法（1h） | 产出验收 | ✓ |
 |---|---|---|---|---|
 | D1 周一 | 环境搭建：JDK17 + IDEA + 第一个程序；数据类型、变量、运算符；**并行：Git 教程 30min（廖雪峰，init/commit/push）** | 数组·704 二分查找 | Hello World 仓库建好 | ☐ |
-| D2 周二 | 流程控制（if/switch/for/while）+ 数组；**并行：Git 教程 30min（branch/merge）** | 数组·27 移除元素 | 5 个流程控制 demo commit | ☐ |
-| D3 周三 | 方法定义/重载 + String 与 StringBuilder | 数组·977 有序数组的平方 | String 练习 demo | ☐ |
+| D2 周二 | 流程控制（if/switch/for/while）+ 数组；**并行：Git 教程 30min（branch/merge）** | 数组·27 移除元素 | 5 个流程控制 demo commit | ✓ |
+| D3 周三 | 方法定义/重载 + String 与 StringBuilder | 数组·977 有序数组的平方 | String 练习 demo | ✓ |
 | D4 周四 | OOP 上：类、构造器、封装、this、static | 链表·203 移除链表元素 | 单个业务类设计 demo | ☐ |
-| D5 周五 | OOP 下：继承、super、方法重写、多态 | 链表·206 反转链表 + 19 删除倒数第N个 | 继承体系 demo（如动物/图形） | ☐ |
+| D5 周五 | OOP 下：继承、super、方法重写、多态 | 链表·206 反转链表 + 19 删除倒数第N个 | 继承体系 demo（如动物/图形） | ✓ |
 | D6 周六 | 综合练习日：用 OOP 写控制台版"学生管理"（4h）；**重写本周 ⚠️ 题** | 数组·209 长度最小的子数组 | 控制台程序可运行 | ☐ |
 | D7 周日 | 复盘 + 笔记入库 + 休息 | — | 本周笔记 1 篇 | ☐ |
 
@@ -150,7 +150,18 @@
 
 - [ ] **D1-①** JVM 与 .class 的关系：字节码是平台无关的中间码，由 JVM（软件虚拟机）执行，实现"一次编写到处运行"；区别于 C++ 直接编译机器码
 - [ ] **D1-②** 浮点数 MIN_VALUE 陷阱：Double.MIN_VALUE 是最小**正**数（4.9E-324）；最负值是 -Double.MAX_VALUE，不是 -Double.MIN_VALUE
-- [ ] **D2-①** 双指针边界：i++ 只能在确认该位置元素安全后发生；窗口全为 val 时不得推进 i。调试法：拿失败用例在纸上手动模拟。D3 开工前白纸重写 if/else 版 removeElement
+- [ ] **D2-①** 双指针边界：i++ 只能在确认该位置元素安全后发生；窗口全为 val 时不得推进 i。调试法：拿失败用例在纸上手动模拟。~~D3 开工前白纸重写 if/else 版 removeElement~~（D3 已白纸重写：i<=j 骨架一次成型，j=length-1 与 i<=j 两处边界错复发，经"无匹配/单元素"用例手动模拟自纠通过——边界病还需一次全对复写才能销账）
 - [ ] **D2-②** 后置自增陷阱：`return j++` 返回旧值 j 而非 j+1（与 C++ 同语义）；要返回 j+1 就明写 `return j+1`，别在 return 里玩自增
 - [ ] **D2-③** 内层循环双退出原因：跳右边 val 的 while 有两种退出（找到安全元素 / j==i 窗口耗尽且 nums[j] 仍是 val），未区分导致全 val 窗口下 val 换 val 后 i++ 照样推进——D2-① 病根换皮复发。教训：外层能自愈的检查，不要在内层预做
 - [ ] **D2-④** 类名撞 API + main 签名：自己的类不能叫 Scanner（与 import 的 java.util.Scanner 同文件撞名，报"已在该编译单元中定义"）；入口固定为 `public static void main(String[] args)`。IDEA 三招：Shift+F6 重命名、Ctrl+Alt+O 清无用 import、补全弹窗看清再 Tab
+- [ ] **D2-⑤** 单引号参与加法变数值：`i + '*' + j` 中 char 提升为 int 做算术（'*'=42, '='=61），print 出来是整数（如 1+'*'+2=45）。拼接必须用双引号 `"*"`。单引号本身没毒（println('A') 正常），参加 `+` 才有毒
+- [ ] **D2-⑥** 长度三兄弟不统一：数组 `arr.length`（**属性，无括号**）、字符串 `str.length()`（方法）、集合 `list.size()`（方法）。C++ 的 size() 肌肉记忆会全带上括号，数组带括号直接编译错误。⚠️ D3 检验错 + LC977 实操复发（两连击），字符串上的 `length()` 更易误带
+- [ ] **D2-⑦** WA ≠ 崩溃，应对手段不同：**WA（答案错）→ 看失败用例 + 纸上手动模拟**找分歧；**RE/本地崩溃 → 读 stack trace**（第一行异常类型，第一个 at 是出错行）。数组下标非法叫**越界**不叫溢出，异常名 ArrayIndexOutOfBoundsException（AIOOBE），越界是"下标出范围"，溢出是"数值超范围"（如 int 溢出），两个词别混
+- [ ] **D3-①** 数组 length 带括号当场复发：LC977 写 `nums.length()` 编译错（cannot find symbol: method length()），D2-⑥ 检验刚错完实操又错。数组是**属性**，点完直接用
+- [ ] **D3-②** 字面量池的边界（什么进池什么不进）：**全是字面量**的拼接（`"ja" + "va"`）在**编译期**被常量折叠成一个字面量进池，`==` 为 true；**有变量参与**（`c + "va"`）编译期算不出，**运行期**用 StringBuilder 新建对象不进池，`==` 为 false。口诀：全字面量进池，碰变量就出池新建
+- [ ] **D3-③** 结果数组填向与选取的绑定：改输出顺序先问自己"**新数组的第一个元素是谁**"。降序（大到小）头部是最大值 → k=0 正序填 + 每轮选**最大**；升序 → 尾部收最大（LC977 原版）。答"选小的放开头"= 填出升序，顺序与选取没绑住
+- [ ] **D4-①** 链表删除的指针推进（D2-①/D2-③ 三连皮终章）：LC203 两次 NPE——①删除后无条件 `cur=cur.next`：删尾后 cur=null 读 .next 炸、连续 val 漏删（场景 1->6->6->2）；②内层 while 审 val 无 null 保护：删尾后 cur.next=null 再读 .val 炸，D2-③ 原样复发（教训原话"外层能自愈的检查，不要在内层预做"）。正解 = removeElement 的 if/else 直译链表：外层 `while(cur!=null && cur.next!=null)` 每轮自愈重审新任 cur.next，删除时 **cur 原地**，安全才前进，无内层循环。**NPE = 链表版 AIOOBE**（读 null 的字段必炸，报错读法同 stack trace）
+- [ ] **D4-②** this 缺失 = 参数自赋值：构造器里 `name = name;` 就近解析为**参数赋给参数自己**，字段纹丝不动，保持默认值（null/0）——new Student("zs",90).showInfo() 打 "null 0" 而非 "zs 90"。`this.name = name;` 才是把参数装进本对象字段。Demo 2 代码写对了但原理没懂（检验答成"zs 90 帮助赋值"），写对 ≠ 懂。口诀：参数和字段撞名时，裸名字指参数，this. 前缀才指字段
+- [ ] **D5-①** super(name) 死锁 + 数据流方向：子类构造器写 `super(name)` 想引用**父类字段**作参数 → 报"在调用超类构造函数之前无法引用"（super 的使命就是构造父类，父类字段此刻还不存在，拿不存在的东西启动它的诞生=死锁）。正确数据流：**外部参数 → super(name) → 父类构造器 this.name=name → 父类字段**，且父类须有对应带参构造器。附带规则（实验做对但结论没存档）：子类构造器第一行永远藏着 `super()`，不写编译器也自动插，所以父构造永远先跑
+- [ ] **D5-②** main 签名再版（D2-④ 复发）：D5 的 Dog 类里又写了 `void main(){}`——缺 public static、缺 String[] args。入口完整签名 `public static void main(String[] args)` 一个字不能少
+- [ ] **D5-③** dummy 锚点/游标不分 + 慢指针起点（LC19 三连摔）：①土办法版把 dummy 当游标走（dummy=dummy.next），锚点丢失 → 被迫 if 特判删头（无知税）；②快慢版 fast/slow 从 **head** 出发，n=L 时 fast 须走 L+1 步越过 null → NPE。正解：**fast、slow 都从 dummy 出发** + return dummy.next 零特判。dummy 打两份工：给头当前驱（LC203 老本行）+ 吸收 fast 多走的一步（fast 从 dummy 走 n+1 步最远正好到 null 不越界）。教训：跳过"零特判重构"作业直接写新版，刚讲完的病当场复发。口诀：**dummy 是锚点（永远不动），cur/slow/fast 是游标（才动）**
