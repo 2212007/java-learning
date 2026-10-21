@@ -5,11 +5,11 @@ public class Student extends Person {
     private int studentId;
     private static int nextId=1;
 
-    Student(){
+    public Student(){
         super();
         this.studentId=nextId++;
     }
-    Student(String name,int age,double score){
+    public Student(String name,int age,double score){
         super(name,age);
         this.score=score;
         this.studentId=nextId++;
