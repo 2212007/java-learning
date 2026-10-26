@@ -30,8 +30,8 @@
 | D8 周一 | 抽象类、接口、多态综合；内部类（了解即可） | 链表·160 相交链表 | 接口设计 demo | ✓ |
 | D9 周二 | 异常体系：try/catch/finally、throw、自定义异常 | 哈希·242 有效的字母异位词 | 自定义异常 demo | ✓ |
 | D10 周三 | 集合上：ArrayList/LinkedList、遍历方式 | 哈希·1 两数之和 | 集合 CRUD demo | ✓ |
-| D11 周四 | 集合下：HashMap/HashSet、equals 与 hashCode | 哈希·349 两个数组的交集 | 用 HashMap 统计词频 demo | ☐ |
-| D12 周五 | 泛型深入 + 工具类（Arrays/Collections/Objects） | 字符串·344 反转字符串 + 541 反转字符串II | 泛型方法 demo | ☐ |
+| D11 周四 | 集合下：HashMap/HashSet、equals 与 hashCode | 哈希·349 两个数组的交集 | 用 HashMap 统计词频 demo | ✓ |
+| D12 周五 | 泛型深入 + 工具类（Arrays/Collections/Objects） | 字符串·344 反转字符串 + 541 反转字符串II | 泛型方法 demo | ✓ |
 | D13 周六 | 综合练习日：用集合重构上周"学生管理"（HashMap 存储 + 泛型）（4h）；**重写 ⚠️ 题** | 字符串·151 反转字符串里的单词 | v2 版本 commit | ☐ |
 | D14 周日 | 复盘 + 笔记入库 | — | 本周笔记 1 篇 | ☐ |
 
@@ -173,3 +173,6 @@
 - [ ] **D10-②** set(i, 新对象) 换人丢身份（Demo2 设计坑）：updateStudent 里 `students.set(i, new Student(...))` 整体替换——新对象的学号是 nextId **新发的**，按学号 1 找到位置、换人后"学号 1"从此消失（替身顶新号站旧位），数据错乱。正确：**改人别换人**——`get(i).setScore(...)` 拿原对象改字段；set 整体替换仅当真要替换整个身份时用。⚠️ D10 检验术语对调（set 说成"改人"、get().set() 说成"换人"）——结论对、名字反，概念没绑死：**set = 换人（整个对象），get().改 = 改人（原对象动字段）**（✅ D11 检验销账：换人/改人术语对答干净利落）
 - [ ] **D11-①** C++ 迁移三连 + 上界开数组（LC349 首版）：① `HashSet<int>`——泛型**只吃对象类型**，必须 `HashSet<Integer>`（D10 LC1 刚学过 `<Integer, Integer>`，次日复发）；② 缺 `new`——`HashSet<Integer> set = HashSet<>();` 编译不过，Java 声明对象必须 new；③ `Math.Min`——Java 是 `Math.min`，首字母小写。逻辑双雷（教练给用例后自纠修复）：add 返回 false 只探针不消耗，nums2 重复元素会反复入 result；预估长度 `Math.min(a,b)` 开数组是**上界不是精确值**，交集不满额时尾部残留 0——要么 Arrays.copyOf(result, l) 截断，要么按结果 set 的 size() 开数组（⚠️ D11 检验未首答：题 7b 第一眼没认出，翻当日对话记录后修正——当日坑次日不脸熟，续挂观察）
 - [ ] **D11-②** HashMap 查询返回值三连错（D11 检验题 5）：① `getOrDefault("a",0)` 答成 false——它返回**值或默认值**（输出 0），不做判断题，布尔是 containsKey 的活；② `get("a")` 答成 true——键不存在返回 **null**（输出 null）；③ `int v = map.get("a")` 答成"类型不匹配编译错"——编译**通过**（拆箱语法合法），**运行时 NPE**（对 null 调 intValue()）。⚠️ **昨日刚亲手问过"运行时 NPE"、次日考即错**——RuntimeException 编译期绿灯、运行期炸的区分没绑进场景。附带：值查询（get/getOrDefault）与存在性查询（containsKey）两套语言混答。同卷半对：hashCode 合同方向对但"哈希冲突"（有损压缩必有碰撞，不同内容挤同一编号）机制词未落地，观察
+- [ ] **D12-①** 数组打印/拼接真面目（D12 检验双题错，家族病根）：数组**没有重载 toString**，`"" + arr` 输出 `[X@hash`（X=类型签名：int 数组 `[I`、char 数组 `[C`）；println 的专属重载**只给了 char[]**（直接打字符），println(int[]) 照样 [I@hash——char[] 是全家族唯一宠儿，且一进拼接后门即关。打印数组内容唯一正解：**Arrays.toString(arr)**。附带：Arrays.sort 返回 **void**，不能塞进 println 参数参与拼接。当天 demo 刚写过 Arrays.toString 仍不认识——D11-①"当日坑不脸熟"同款复发
+- [ ] **D12-②** 泛型方法类型参数声明位置：`static <T> void printAll(ArrayList<T> list)` 的 `<T>` 写在**修饰符后、返回类型前**。C++ 对照：`template<typename T>` 整行打头，Java 是嵌进方法签名。⚠️ D12 检验半对：知道缺东西但写不出正确形态，当天 demo 刚写对过——D4-②"写对 ≠ 懂"回潮
+- [ ] **D12-③**（观察）String 不可变（immutable）是 char[]/StringBuilder 存在的理由：原地修改需求必走可变结构；LC344 给 char[] 不给 String 的病根是**无写入口**，"不能 s[i]" 只是表象。D12 检验原因层未点出"不可变"
